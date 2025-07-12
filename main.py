@@ -48,31 +48,40 @@ def return_notes():
 
 #Creating a get method for returning the notes based on their id's.
 @app.get("/notes/{note_id}")
+#defining a function with argument as note_id as type int
 def return_notes_id(note_id: int):
-    if note_id in notes:
-        note = notes[note_id]
+    #Here, if note_is is in notes list, 
+    if note_id in notes:#here, if note_id is in notes:
+        note = notes[note_id]#If it does exist, it says get that note from the dictionary.
         return {"id": note_id, **note.dict()}
     else:
+        #else, it will raises an exception as note not found.
         raise HTTPException(status_code=404, detail="Note not found.")
 
 
 
 #Creating a put method for editing the notes.
 @app.put("/notes/{note_id}")
+#defining a function with argument note_id as type in and note being a instance of Notes class.
 def edit_notes(note_id: int, note: Notes):
+    #Here, if note_id is not in notes list, it raises an exception about note not found.
     if note_id not in notes:
         raise HTTPException(status_code=404, detail="Note not found.")
     else:
-        notes[note_id] = note
+        notes[note_id] = note#here, note is the new note that will replace the old one. 
         return {"id": note_id, **note.dict()}
 
 
 
 #Creating a delete method for deleting the note based on the id provided.
 @app.delete("/notes/{note_id}")
+#defining a delete_note function here with note_id as agrument.
 def delete_note(note_id: int):
+    #Here, if note_id is not in notes list, it raises an exception about note not found.
     if note_id not in notes:
         raise HTTPException(status_code=404, detail="Note not found.")
+        #else it will delete the respective note from the note_id.
     else:
-        del notes[note_id]
+        del notes[note_id]#here, notes is the list and inside the big bracet is note_id from which the respective note is identified.
+        #returning a message after the note is deleted successfully.
         return {"message": "Note deleted successfully."}
